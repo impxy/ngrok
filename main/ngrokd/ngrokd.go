@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/newflydd/ngrok/server"
-)
+import "github.com/impxy/newflydd-ngrok/server"
 
 func main() {
 	server.Main()
