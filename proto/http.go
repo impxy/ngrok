@@ -3,8 +3,6 @@ package proto
 import (
 	"bufio"
 	"bytes"
-	"github.com/newflydd/ngrok/conn"
-	"github.com/newflydd/ngrok/util"
 	"io"
 	"io/ioutil"
 	"net"
@@ -14,6 +12,9 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/impxy/ngrok/conn"
+	"github.com/impxy/ngrok/util"
 
 	metrics "github.com/rcrowley/go-metrics"
 )

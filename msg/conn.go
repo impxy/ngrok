@@ -4,7 +4,8 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"github.com/newflydd/ngrok/conn"
+
+	"github.com/impxy/ngrok/conn"
 )
 
 func readMsgShared(c conn.Conn) (buffer []byte, err error) {

@@ -1,7 +1,7 @@
 package mvc
 
 import (
-	"github.com/newflydd/ngrok/util"
+	"github.com/impxy/ngrok/util"
 )
 
 type Controller interface {

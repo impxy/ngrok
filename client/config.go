@@ -2,8 +2,6 @@ package client
 
 import (
 	"fmt"
-	"github.com/newflydd/ngrok/log"
-	"gopkg.in/yaml.v1"
 	"io/ioutil"
 	"net"
 	"net/url"
@@ -13,6 +11,9 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/impxy/ngrok/log"
+	"gopkg.in/yaml.v1"
 )
 
 type Configuration struct {

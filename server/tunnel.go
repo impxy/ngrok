@@ -3,10 +3,6 @@ package server
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/newflydd/ngrok/conn"
-	"github.com/newflydd/ngrok/log"
-	"github.com/newflydd/ngrok/msg"
-	"github.com/newflydd/ngrok/util"
 	"math/rand"
 	"net"
 	"os"
@@ -14,6 +10,11 @@ import (
 	"strings"
 	"sync/atomic"
 	"time"
+
+	"github.com/impxy/ngrok/conn"
+	"github.com/impxy/ngrok/log"
+	"github.com/impxy/ngrok/msg"
+	"github.com/impxy/ngrok/util"
 )
 
 var defaultPortMap = map[string]int{

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/newflydd/ngrok/client"
+	"github.com/impxy/ngrok/client"
 )
 
 func main() {

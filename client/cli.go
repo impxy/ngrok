@@ -3,8 +3,9 @@ package client
 import (
 	"flag"
 	"fmt"
-	"github.com/newflydd/ngrok/version"
 	"os"
+
+	"github.com/impxy/ngrok/version"
 )
 
 const usage1 string = `Usage: %s [OPTIONS] <local port or address>

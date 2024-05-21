@@ -2,13 +2,14 @@ package client
 
 import (
 	"fmt"
-	"github.com/newflydd/ngrok/client/mvc"
-	"github.com/newflydd/ngrok/client/views/term"
-	"github.com/newflydd/ngrok/client/views/web"
-	"github.com/newflydd/ngrok/log"
-	"github.com/newflydd/ngrok/proto"
-	"github.com/newflydd/ngrok/util"
 	"sync"
+
+	"github.com/impxy/ngrok/client/mvc"
+	"github.com/impxy/ngrok/client/views/term"
+	"github.com/impxy/ngrok/client/views/web"
+	"github.com/impxy/ngrok/log"
+	"github.com/impxy/ngrok/proto"
+	"github.com/impxy/ngrok/util"
 )
 
 type command interface{}

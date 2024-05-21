@@ -3,20 +3,21 @@ package client
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/newflydd/ngrok/client/mvc"
-	"github.com/newflydd/ngrok/conn"
-	"github.com/newflydd/ngrok/log"
-	"github.com/newflydd/ngrok/msg"
-	"github.com/newflydd/ngrok/proto"
-	"github.com/newflydd/ngrok/util"
-	"github.com/newflydd/ngrok/version"
-	metrics "github.com/rcrowley/go-metrics"
 	"io/ioutil"
 	"math"
 	"runtime"
 	"strings"
 	"sync/atomic"
 	"time"
+
+	"github.com/impxy/ngrok/client/mvc"
+	"github.com/impxy/ngrok/conn"
+	"github.com/impxy/ngrok/log"
+	"github.com/impxy/ngrok/msg"
+	"github.com/impxy/ngrok/proto"
+	"github.com/impxy/ngrok/util"
+	"github.com/impxy/ngrok/version"
+	metrics "github.com/rcrowley/go-metrics"
 )
 
 const (

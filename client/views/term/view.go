@@ -2,12 +2,13 @@
 package term
 
 import (
-	"github.com/newflydd/ngrok/client/mvc"
-	"github.com/newflydd/ngrok/log"
-	"github.com/newflydd/ngrok/proto"
-	"github.com/newflydd/ngrok/util"
-	termbox "github.com/nsf/termbox-go"
 	"time"
+
+	"github.com/impxy/ngrok/client/mvc"
+	"github.com/impxy/ngrok/log"
+	"github.com/impxy/ngrok/proto"
+	"github.com/impxy/ngrok/util"
+	termbox "github.com/nsf/termbox-go"
 )
 
 type TermView struct {

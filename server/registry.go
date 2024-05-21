@@ -3,11 +3,12 @@ package server
 import (
 	"encoding/gob"
 	"fmt"
-	"github.com/newflydd/ngrok/cache"
-	"github.com/newflydd/ngrok/log"
 	"net"
 	"sync"
 	"time"
+
+	"github.com/impxy/ngrok/cache"
+	"github.com/impxy/ngrok/log"
 )
 
 const (
