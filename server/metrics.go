@@ -53,6 +53,19 @@ type LocalMetrics struct {
 	bytesInCount  gometrics.Counter
 	bytesOutCount gometrics.Counter
 
+	//===pxy修改===
+	//实际数量/当前数量（原始的是不会减少的数量）
+	currWindowsCounter		gometrics.Counter
+	currLinuxCounter		gometrics.Counter
+	currOsxCounter			gometrics.Counter
+	currOtherCounter		gometrics.Counter
+	
+	currTunnelMeter        gometrics.Meter
+	currTcpTunnelMeter     gometrics.Meter
+	currHttpTunnelMeter    gometrics.Meter
+	currConnMeter          gometrics.Meter
+
+
 	/*
 	   tunnelGauge gometrics.Gauge
 	   tcpTunnelGauge gometrics.Gauge
@@ -79,6 +92,19 @@ func NewLocalMetrics(reportInterval time.Duration) *LocalMetrics {
 
 		bytesInCount:  gometrics.NewCounter(),
 		bytesOutCount: gometrics.NewCounter(),
+
+
+		//===pxy修改===
+		currWindowsCounter:		gometrics.NewCounter(),
+		currLinuxCounter:		gometrics.NewCounter(),
+		currOsxCounter:			gometrics.NewCounter(),
+		currOtherCounter:		gometrics.NewCounter(),
+
+		currTunnelMeter:        gometrics.NewMeter(),
+		currTcpTunnelMeter:     gometrics.NewMeter(),
+		currHttpTunnelMeter:    gometrics.NewMeter(),
+		currConnMeter:          gometrics.NewMeter(),
+		//===pxy修改===
 
 		/*
 		   metrics.tunnelGauge = gometrics.NewGauge(),
@@ -112,18 +138,72 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 	case "http":
 		m.httpTunnelMeter.Mark(1)
 	}
+
+	//===pxy修改===
+	m.currTunnelMeter.Mark(1)
+
+	switch t.ctl.auth.OS {
+	case "windows":
+		m.currWindowsCounter.Inc(1)
+	case "linux":
+		m.currLinuxCounter.Inc(1)
+	case "darwin":
+		m.currOsxCounter.Inc(1)
+	default:
+		m.currOtherCounter.Inc(1)
+	}
+
+	switch t.req.Protocol {
+	case "tcp":
+		m.currTcpTunnelMeter.Mark(1)
+	case "http":
+		m.currHttpTunnelMeter.Mark(1)
+	}
+	//===pxy修改===
 }
 
 func (m *LocalMetrics) CloseTunnel(t *Tunnel) {
+
+	//===pxy修改===
+	m.currTunnelMeter.Mark(-1)
+
+	switch t.ctl.auth.OS {
+	case "windows":
+		m.currWindowsCounter.Inc(-1)
+	case "linux":
+		m.currLinuxCounter.Inc(-1)
+	case "darwin":
+		m.currOsxCounter.Inc(-1)
+	default:
+		m.currOtherCounter.Inc(-1)
+	}
+
+	switch t.req.Protocol {
+	case "tcp":
+		m.currTcpTunnelMeter.Mark(-1)
+	case "http":
+		m.currHttpTunnelMeter.Mark(-1)
+	}
+	//===pxy修改===
+
 }
 
 func (m *LocalMetrics) OpenConnection(t *Tunnel, c conn.Conn) {
 	m.connMeter.Mark(1)
+
+	//===pxy修改===
+	m.currConnMeter.Mark(1)
+	//===pxy修改===
+
 }
 
 func (m *LocalMetrics) CloseConnection(t *Tunnel, c conn.Conn, start time.Time, bytesIn, bytesOut int64) {
 	m.bytesInCount.Inc(bytesIn)
 	m.bytesOutCount.Inc(bytesOut)
+
+	//===pxy修改===
+	m.currConnMeter.Mark(-1)
+	//===pxy修改===
 }
 
 func (m *LocalMetrics) Report() {
@@ -144,6 +224,15 @@ func (m *LocalMetrics) Report() {
 			"connMeter.m1":          m.connMeter.Rate1(),
 			"bytesIn.count":         m.bytesInCount.Count(),
 			"bytesOut.count":        m.bytesOutCount.Count(),
+
+			"currWindows":					m.currWindowsCounter.Count(),
+			"currLinux":					m.currLinuxCounter.Count(),
+			"currOsx":						m.currOsxCounter.Count(),
+			"currOther":					m.currOtherCounter.Count(),
+			"currHttpTunnelMeter.count":	m.currHttpTunnelMeter.Count(),
+			"currTcpTunnelMeter.count":		m.currTcpTunnelMeter.Count(),
+			"currTunnelMeter.count":		m.currTunnelMeter.Count(),
+			"currConnMeter.count":			m.currConnMeter.Count(),
 		})
 
 		if err != nil {
