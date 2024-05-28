@@ -47,7 +47,7 @@ type LocalMetrics struct {
 	httpTunnelMeter    gometrics.Meter
 	connMeter          gometrics.Meter
 	lostHeartbeatMeter gometrics.Meter
-	
+
 	connTimer gometrics.Timer
 
 	bytesInCount  gometrics.Counter
@@ -70,6 +70,10 @@ type LocalMetrics struct {
 	currUdpTunnelMeter		gometrics.Meter
 	httpsTunnelMeter		gometrics.Meter
 	currHttpsTunnelMeter	gometrics.Meter
+
+	//客户端url
+	clientUrlList			[]string		//客户端url列表（不会减少的）
+	currClientUrlList		[]string		//当前连接的客户端url列表
 
 	//===pxy修改===
 
@@ -117,6 +121,9 @@ func NewLocalMetrics(reportInterval time.Duration) *LocalMetrics {
 		currUdpTunnelMeter:		gometrics.NewMeter(),
 		httpsTunnelMeter:		gometrics.NewMeter(),
 		currHttpsTunnelMeter:	gometrics.NewMeter(),
+
+		clientUrlList:			[]string,
+		currClientUrlList:		[]string,
 		//===pxy修改===
 
 		/*
@@ -180,6 +187,9 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 	case "https":
 		m.currHttpsTunnelMeter.Mark(1)
 	}
+
+	clientUrlList = append(clientUrlList, t.url)
+	currClientUrlList = append(currClientUrlList, t.url)
 	//===pxy修改===
 }
 
@@ -209,6 +219,8 @@ func (m *LocalMetrics) CloseTunnel(t *Tunnel) {
 	case "https":
 		m.currHttpsTunnelMeter.Mark(-1)
 	}
+
+
 	//===pxy修改===
 
 }
@@ -263,6 +275,9 @@ func (m *LocalMetrics) Report() {
 			"currUdpTunnelMeter.count":		m.currUdpTunnelMeter.Count(),
 			"httpsTunnelMeter.count":		m.httpsTunnelMeter.Count(),
 			"currHttpsTunnelMeter.count":	m.currHttpsTunnelMeter.Count(),
+
+			"clientUrlList":				m.clientUrlList,
+			"currClientUrlList":			m.currClientUrlList
 
 		})
 
