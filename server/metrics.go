@@ -188,8 +188,8 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 		m.currHttpsTunnelMeter.Mark(1)
 	}
 
-	clientUrlList = append(clientUrlList, t.url)
-	currClientUrlList = append(currClientUrlList, t.url)
+	m.clientUrlList = append(m.clientUrlList, t.url)
+	m.currClientUrlList = append(m.currClientUrlList, t.url)
 	//===pxy修改===
 }
 
