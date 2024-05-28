@@ -220,9 +220,18 @@ func (m *LocalMetrics) CloseTunnel(t *Tunnel) {
 		m.currHttpsTunnelMeter.Mark(-1)
 	}
 
-
+	m.currClientUrlList = removeElementByValue(m.currClientUrlList, t.url)
 	//===pxy修改===
 
+}
+
+func removeElementByValue(s []string, elem string) []string {
+    for i, v := range s {
+        if v == elem {
+            return append(s[:i], s[i+1:]...)
+        }
+    }
+    return s // 如果元素不存在，则返回原切片
 }
 
 func (m *LocalMetrics) OpenConnection(t *Tunnel, c conn.Conn) {
