@@ -277,7 +277,7 @@ func (m *LocalMetrics) Report() {
 			"currHttpsTunnelMeter.count":	m.currHttpsTunnelMeter.Count(),
 
 			"clientUrlList":				m.clientUrlList,
-			"currClientUrlList":			m.currClientUrlList
+			"currClientUrlList":			m.currClientUrlList,
 
 		})
 
