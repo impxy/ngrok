@@ -122,8 +122,8 @@ func NewLocalMetrics(reportInterval time.Duration) *LocalMetrics {
 		httpsTunnelMeter:		gometrics.NewMeter(),
 		currHttpsTunnelMeter:	gometrics.NewMeter(),
 
-		clientUrlList:			[]string,
-		currClientUrlList:		[]string,
+		clientUrlList:			[]string{},
+		currClientUrlList:		[]string{},
 		//===pxy修改===
 
 		/*
