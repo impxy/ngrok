@@ -47,7 +47,7 @@ type LocalMetrics struct {
 	httpTunnelMeter    gometrics.Meter
 	connMeter          gometrics.Meter
 	lostHeartbeatMeter gometrics.Meter
-
+	
 	connTimer gometrics.Timer
 
 	bytesInCount  gometrics.Counter
@@ -65,6 +65,13 @@ type LocalMetrics struct {
 	currHttpTunnelMeter    gometrics.Meter
 	currConnMeter          gometrics.Meter
 
+	//协议细化
+	udpTunnelMeter			gometrics.Meter
+	currUdpTunnelMeter		gometrics.Meter
+	httpsTunnelMeter		gometrics.Meter
+	currHttpsTunnelMeter	gometrics.Meter
+
+	//===pxy修改===
 
 	/*
 	   tunnelGauge gometrics.Gauge
@@ -104,6 +111,12 @@ func NewLocalMetrics(reportInterval time.Duration) *LocalMetrics {
 		currTcpTunnelMeter:     gometrics.NewMeter(),
 		currHttpTunnelMeter:    gometrics.NewMeter(),
 		currConnMeter:          gometrics.NewMeter(),
+
+		
+		udpTunnelMeter:			gometrics.NewMeter(),
+		currUdpTunnelMeter:		gometrics.NewMeter(),
+		httpsTunnelMeter:		gometrics.NewMeter(),
+		currHttpsTunnelMeter:	gometrics.NewMeter(),
 		//===pxy修改===
 
 		/*
@@ -137,6 +150,10 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 		m.tcpTunnelMeter.Mark(1)
 	case "http":
 		m.httpTunnelMeter.Mark(1)
+	case "udp":
+		m.udpTunnelMeter.Mark(1)
+	case "https":
+		m.httpsTunnelMeter.Mark(1)
 	}
 
 	//===pxy修改===
@@ -158,6 +175,10 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 		m.currTcpTunnelMeter.Mark(1)
 	case "http":
 		m.currHttpTunnelMeter.Mark(1)
+	case "udp":
+		m.currUdpTunnelMeter.Mark(1)
+	case "https":
+		m.currHttpsTunnelMeter.Mark(1)
 	}
 	//===pxy修改===
 }
@@ -183,6 +204,10 @@ func (m *LocalMetrics) CloseTunnel(t *Tunnel) {
 		m.currTcpTunnelMeter.Mark(-1)
 	case "http":
 		m.currHttpTunnelMeter.Mark(-1)
+	case "udp":
+		m.currUdpTunnelMeter.Mark(-1)
+	case "https":
+		m.currHttpsTunnelMeter.Mark(-1)
 	}
 	//===pxy修改===
 
@@ -233,6 +258,12 @@ func (m *LocalMetrics) Report() {
 			"currTcpTunnelMeter.count":		m.currTcpTunnelMeter.Count(),
 			"currTunnelMeter.count":		m.currTunnelMeter.Count(),
 			"currConnMeter.count":			m.currConnMeter.Count(),
+
+			"udpTunnelMeter.count":			m.udpTunnelMeter.Count(),
+			"currUdpTunnelMeter.count":		m.currUdpTunnelMeter.Count(),
+			"httpsTunnelMeter.count":		m.httpsTunnelMeter.Count(),
+			"currHttpsTunnelMeter.count":	m.currHttpsTunnelMeter.Count(),
+
 		})
 
 		if err != nil {
