@@ -66,8 +66,6 @@ type LocalMetrics struct {
 	currConnMeter          gometrics.Meter
 
 	//协议细化
-	udpTunnelMeter			gometrics.Meter
-	currUdpTunnelMeter		gometrics.Meter
 	httpsTunnelMeter		gometrics.Meter
 	currHttpsTunnelMeter	gometrics.Meter
 
@@ -116,9 +114,6 @@ func NewLocalMetrics(reportInterval time.Duration) *LocalMetrics {
 		currHttpTunnelMeter:    gometrics.NewMeter(),
 		currConnMeter:          gometrics.NewMeter(),
 
-		
-		udpTunnelMeter:			gometrics.NewMeter(),
-		currUdpTunnelMeter:		gometrics.NewMeter(),
 		httpsTunnelMeter:		gometrics.NewMeter(),
 		currHttpsTunnelMeter:	gometrics.NewMeter(),
 
@@ -157,8 +152,6 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 		m.tcpTunnelMeter.Mark(1)
 	case "http":
 		m.httpTunnelMeter.Mark(1)
-	case "udp":
-		m.udpTunnelMeter.Mark(1)
 	case "https":
 		m.httpsTunnelMeter.Mark(1)
 	}
@@ -182,8 +175,6 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 		m.currTcpTunnelMeter.Mark(1)
 	case "http":
 		m.currHttpTunnelMeter.Mark(1)
-	case "udp":
-		m.currUdpTunnelMeter.Mark(1)
 	case "https":
 		m.currHttpsTunnelMeter.Mark(1)
 	}
@@ -214,8 +205,6 @@ func (m *LocalMetrics) CloseTunnel(t *Tunnel) {
 		m.currTcpTunnelMeter.Mark(-1)
 	case "http":
 		m.currHttpTunnelMeter.Mark(-1)
-	case "udp":
-		m.currUdpTunnelMeter.Mark(-1)
 	case "https":
 		m.currHttpsTunnelMeter.Mark(-1)
 	}
@@ -280,8 +269,6 @@ func (m *LocalMetrics) Report() {
 			"currTunnelMeter.count":		m.currTunnelMeter.Count(),
 			"currConnMeter.count":			m.currConnMeter.Count(),
 
-			"udpTunnelMeter.count":			m.udpTunnelMeter.Count(),
-			"currUdpTunnelMeter.count":		m.currUdpTunnelMeter.Count(),
 			"httpsTunnelMeter.count":		m.httpsTunnelMeter.Count(),
 			"currHttpsTunnelMeter.count":	m.currHttpsTunnelMeter.Count(),
 
