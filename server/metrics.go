@@ -22,7 +22,7 @@ func init() {
 	if keenApiKey != "" {
 		metrics = NewKeenIoMetrics(60 * time.Second)
 	} else {
-		metrics = NewLocalMetrics(30 * time.Second)
+		metrics = NewLocalMetrics(10 * time.Second)
 	}
 }
 
@@ -272,7 +272,7 @@ func (m *LocalMetrics) Report() {
 			"httpsTunnelMeter.count":		m.httpsTunnelMeter.Count(),
 			"currHttpsTunnelMeter.count":	m.currHttpsTunnelMeter.Count(),
 
-			"clientUrlList":				m.clientUrlList,
+			"clientUrlList":					m.clientUrlList,
 			"currClientUrlList":			m.currClientUrlList,
 
 		})
