@@ -179,7 +179,10 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 		m.currHttpsTunnelMeter.Mark(1)
 	}
 
-	m.clientUrlList = append(m.clientUrlList, t.url)
+	//不包含才添加
+	if(!isArrContain(m.clientUrlList, t.url)){
+		m.clientUrlList = append(m.clientUrlList, t.url)
+	}
 	m.currClientUrlList = append(m.currClientUrlList, t.url)
 	//===pxy修改===
 }
@@ -221,6 +224,15 @@ func removeElementByValue(s []string, elem string) []string {
         }
     }
     return s // 如果元素不存在，则返回原切片
+}
+
+func isArrContain(arr []string, elem string) bool {
+	for _, v := range arr {
+		if v == elem {
+			return true
+		}
+	}
+	return false
 }
 
 func (m *LocalMetrics) OpenConnection(t *Tunnel, c conn.Conn) {
