@@ -9,7 +9,7 @@ import (
 
 	"github.com/impxy/ngrok/log"
 	"github.com/impxy/ngrok/util"
-	"github.com/inconshreveable/mousetrap"
+	"github.com/impxy/mousetrap"
 )
 
 func init() {
