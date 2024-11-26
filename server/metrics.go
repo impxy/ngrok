@@ -186,7 +186,9 @@ func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 	if(!isArrContain(m.clientUrlList, t.url)){
 		m.clientUrlList = append(m.clientUrlList, t.url)
 	}
-	m.currClientUrlList = append(m.currClientUrlList, t.url)
+	if(!isArrContain(m.currClientUrlList, t.url)){
+		m.currClientUrlList = append(m.currClientUrlList, t.url)
+	}
 	//===pxy修改===
 }
 

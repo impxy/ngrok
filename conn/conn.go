@@ -79,6 +79,10 @@ func Listen(addr, typ string, tlsCfg *tls.Config) (l *Listener, err error) {
 			}
 			c.Info("New connection from %v", c.RemoteAddr())
 			l.Conns <- c
+
+			//2024-11-26 pxy修改，解决tcp连接不显示在在线通道列表中的问题
+			conn.Info("Open TCP Tunnel")
+			metrics.OpenTunnel(t)
 		}
 	}()
 	return

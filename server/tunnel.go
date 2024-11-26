@@ -155,6 +155,10 @@ func NewTunnel(m *msg.ReqTunnel, ctl *Control) (t *Tunnel, err error) {
 			}
 		}
 
+		//2024-11-26 pxy修改，解决tcp连接不显示在在线通道列表中的问题
+		conn.Info("Open TCP Tunnel")
+		metrics.OpenTunnel(t)
+
 		// Bind for TCP connections
 		bindTcp(0)
 		return
