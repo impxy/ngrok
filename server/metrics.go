@@ -134,6 +134,9 @@ func NewLocalMetrics(reportInterval time.Duration) *LocalMetrics {
 }
 
 func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
+
+	t.Info("metrics - Opening tunnel %s", t.url)
+
 	m.tunnelMeter.Mark(1)
 
 	switch t.ctl.auth.OS {
@@ -284,7 +287,7 @@ func (m *LocalMetrics) Report() {
 			"httpsTunnelMeter.count":		m.httpsTunnelMeter.Count(),
 			"currHttpsTunnelMeter.count":	m.currHttpsTunnelMeter.Count(),
 
-			"clientUrlList":					m.clientUrlList,
+			"clientUrlList":				m.clientUrlList,
 			"currClientUrlList":			m.currClientUrlList,
 
 		})

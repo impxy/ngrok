@@ -239,6 +239,10 @@ func (t *Tunnel) listenTcp(listener *net.TCPListener) {
 		conn.AddLogPrefix(t.Id())
 		conn.Info("New connection from %v", conn.RemoteAddr())
 
+		//2024-11-26 pxy修改，解决tcp连接不显示在在线通道列表中的问题
+		conn.Info("Open TCP Tunnel")
+		metrics.OpenTunnel(t)
+
 		go t.HandlePublicConnection(conn)
 	}
 }
