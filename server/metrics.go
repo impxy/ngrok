@@ -135,7 +135,7 @@ func NewLocalMetrics(reportInterval time.Duration) *LocalMetrics {
 
 func (m *LocalMetrics) OpenTunnel(t *Tunnel) {
 
-	t.Info("metrics - Opening tunnel %s", t.url)
+	t.Info("[metrics.OpenTunnel()] %s", t.url)
 
 	m.tunnelMeter.Mark(1)
 

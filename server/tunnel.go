@@ -132,6 +132,11 @@ func NewTunnel(m *msg.ReqTunnel, ctl *Control) (t *Tunnel, err error) {
 		// use the custom remote port you asked for
 		if t.req.RemotePort != 0 {
 			bindTcp(int(t.req.RemotePort))
+
+			//2024-11-26 pxy修改，解决tcp连接不显示在在线通道列表中的问题
+			t.Info("[tunnel.NewTunnel()] bindTcp-RemotePort")
+			metrics.OpenTunnel(t)
+
 			return
 		}
 
@@ -150,17 +155,23 @@ func NewTunnel(m *msg.ReqTunnel, ctl *Control) (t *Tunnel, err error) {
 					t.ctl.conn.Warn("Failed to get custom port %d: %v, trying a random one", port, err)
 				} else {
 					// success, we're done
+
+					//2024-11-26 pxy修改，解决tcp连接不显示在在线通道列表中的问题
+					t.Info("[tunnel.NewTunnel()] bindTcp-succ")
+					metrics.OpenTunnel(t)
+
 					return
 				}
 			}
 		}
 
-		//2024-11-26 pxy修改，解决tcp连接不显示在在线通道列表中的问题
-		conn.Info("Open TCP Tunnel")
-		metrics.OpenTunnel(t)
-
 		// Bind for TCP connections
 		bindTcp(0)
+
+		//2024-11-26 pxy修改，解决tcp连接不显示在在线通道列表中的问题
+		t.Info("[tunnel.NewTunnel()] bindTcp(0)")
+		metrics.OpenTunnel(t)
+
 		return
 
 	case "http", "https":
@@ -241,10 +252,10 @@ func (t *Tunnel) listenTcp(listener *net.TCPListener) {
 
 		conn := conn.Wrap(tcpConn, "pub")
 		conn.AddLogPrefix(t.Id())
-		conn.Info("New connection from %v", conn.RemoteAddr())
+		conn.Info("[tunnel.listenTcp()] New connection from %v", conn.RemoteAddr())
 
 		//2024-11-26 pxy修改，解决tcp连接不显示在在线通道列表中的问题
-		conn.Info("Open TCP Tunnel")
+		t.Info("[tunnel.listenTcp()] Open TCP Tunnel")
 		metrics.OpenTunnel(t)
 
 		go t.HandlePublicConnection(conn)
